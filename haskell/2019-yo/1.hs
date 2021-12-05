@@ -3,7 +3,7 @@ toInt x = read x :: Int
 
 getInts = do
   x <- getLine
-  let y = (map $toInt) $words x
+  let y = map toInt $words x
   return y
 
 main = do
