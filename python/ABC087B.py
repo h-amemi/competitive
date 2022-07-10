@@ -1,69 +1,33 @@
-coins_500 = int(input())
-coins_100 = int(input())
-coins_50 = int(input())
-x = int(input())
-
-
 def usable_coins(x, coins, val):
-    mod = x // (coins * val)
-    return mod - coins if mod > coins else 0
+    mod = x // val
+    return mod if mod < coins else coins
 
 
-# 100 * 5 = 500
-# 50 * 2 = 100
-# まず、最適な枚数を計算して、そこからどれだけ小さいコインで置き換えられるかを計算していく
-usable_500 = usable_coins(x, coins_500, 500)
-x = x - 500 * usable_500
-usable_100 = usable_coins(x, coins_100, 100)
-x = x - 100 * usable_100
-usable_50 = usable_coins(x, coins_50, 50)
-x = x - 50 * usable_50
-if x != 0:
-    print(0)
-    exit()
+def main():
+    coins_500 = int(input())
+    coins_100 = int(input())
+    coins_50 = int(input())
+    x = int(input())
 
-"""
-組み合わせの数考えなきゃいけない
-500 を 100 でいくら切り崩せるか
-500 を 100 と 50 でいくら切り崩せるか
-(そうすればなんとかなる気がする...?)
+    c = 0
+    # まず、最適な枚数を計算して、そこからどれだけ小さいコインで置き換えられるかを計算していく
+    usable_500 = usable_coins(x, coins_500, 500)
+    # print("usable_500: {}".format(usable_500))
+    for i_500 in reversed(range(usable_500 + 1)):  # 大きい方から減らしていく
+        # print("i_500: {}".format(i_500))
+        usable_100 = usable_coins(x - 500 * i_500, coins_100, 100)
+        # print("usable_100: {}".format(usable_100))
+        for i_100 in reversed(range(usable_100 + 1)):
+            # print("i_100: {}".format(i_100))
+            usable_50 = usable_coins(x - (500 * i_500 + 100 * i_100), coins_50, 50)
+            # print("usable_50: {}".format(usable_50))
+            if x == (500 * i_500 + 100 * i_100 + 50 * usable_50):
+                c += 1
+                continue
+            break
 
-たとえば 1000 円を 100 * 10, 50 * 6 とかで切り崩せたとして
-500 * 1, 100 * 5, 50 * 0
-500 * 1, 100 * 4, 50 * 2
-500 * 1, 100 * 3, 50 * 4
-500 * 1, 100 * 2, 50 * 6
-500 * 0, 100 *10, 50 * 0
-500 * 0, 100 * 9, 50 * 2
-500 * 0, 100 * 8, 50 * 4
-500 * 0, 100 * 7, 50 * 6
-500
+    print(c)
 
-たとえば 1000 円を 100 * 8, 50 * 6 とかで切り崩せたとして
-500 * 1, 100 * 5, 50 * 0
-500 * 1, 100 * 4, 50 * 2
-500 * 1, 100 * 3, 50 * 4
-500 * 1, 100 * 2, 50 * 6
-500 * 0, 100 * 8, 50 * 4
-500 * 0, 100 * 7, 50 * 6
 
-たとえば 1000 円を 100 * 8, 50 * 2 とかで切り崩せたとして
-500 * 1, 100 * 5, 50 * 0
-500 * 1, 100 * 4, 50 * 2
-
-500 を切り崩していって、そこでの最適を再帰的に調べる？
-変にそれぞれ変数に入れたりしないで一つのリストにいれちゃったほうがよかった
-大きい方からきりくずす？ちいさいほうから？
-    小さい方からやっていくと、同じ処理が重複しそうで嫌
-    大きい方の、切り崩せる最大からやっていくとよさそう
-    余裕出てきたところは使い回せるので
-        そんな事考えなくていいか・・・むずい
-    もっと数学的に解決できる・・・？
-"""
-# 100 のみ 2
-# 50 のみ 3
-# 2 * 3 = 6?
-
-# 引いてみる
-
-coins_100 - usable_100
+if __name__ == "__main__":
+    main()
