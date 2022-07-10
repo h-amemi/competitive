@@ -9,12 +9,15 @@ getInts = do
   return y
 
 susumeru :: [Int] -> [Int] -> Int -> Int -> Int
-susumeru [] [] 0 0 = 0 # sugoroku saikoro zahyo kaisu
-susumeru xs (y : ys) z a = if z + (xs !! z + y) >= length sugoroku then a + 1 else susumeru xs ys z + (xs !! z + y) a + 1
+susumeru [] [] 0 0 = 0
+susumeru sugoroku (dice : dices) zahyo kaisu =
+  if zahyo + dice + (sugoroku !! zahyo + dice) >= length sugoroku
+    then kaisu + 1
+    else susumeru sugoroku dices (zahyo + dice + (sugoroku !! zahyo + dice)) (kaisu + 1)
 
 main = do
   [n, m] <- getInts
 
   sugoroku <- replicateM n readLn
-  saikoro <- replicateM m readLn
-  print $ susumeru sugoroku saikoro 0 0
+  dices <- replicateM m readLn
+  print $ susumeru sugoroku dices 0 0
