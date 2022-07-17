@@ -2,10 +2,7 @@ import argparse
 
 
 def sort(l):
-    """
-    pivot を真ん中にして、左右で入れ替え対象を見つけて入れ替える、というのを愚直にやってみる
-    """
-
+    # pivot を中央として左右で入れ替え対象を見つけて入れ替える愚直な実装
     if len(l) <= 1:
         return l
 
@@ -63,6 +60,16 @@ def sort(l):
     ri = l[pivot + 1 :]
 
     return sort(le) + mi + sort(ri)
+
+
+def quicksort(arr):
+    # Suggested by Copilot
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[0]
+    left = [x for x in arr[1:] if x <= pivot]
+    right = [x for x in arr[1:] if x > pivot]
+    return quicksort(left) + [pivot] + quicksort(right)
 
 
 if __name__ == "__main__":
