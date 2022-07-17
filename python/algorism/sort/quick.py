@@ -2,6 +2,13 @@ import argparse
 
 
 def sort(l):
+    """
+    pivot を真ん中にして、左右で入れ替え対象を見つけて入れ替える、というのを愚直にやってみる
+    """
+
+    if len(l) <= 1:
+        return l
+
     pivot = len(l) // 2
     pivot_val = l[pivot]
 
@@ -55,13 +62,7 @@ def sort(l):
     mi = l[pivot : pivot + 1]
     ri = l[pivot + 1 :]
 
-    if len(le) >= 2:
-        le = sort(le)
-
-    if len(ri) >= 2:
-        ri = sort(ri)
-
-    return le + mi + ri
+    return sort(le) + mi + sort(ri)
 
 
 if __name__ == "__main__":
