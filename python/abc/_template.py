@@ -12,4 +12,7 @@ if __name__ == "__main__":
     # int a, b, c
     a, b, c = map(int, input().split())
 
+    # int list (n lines)
+    values = [[int(i) for i in (input().split())] for _ in range(n)]
+
     print(main())
