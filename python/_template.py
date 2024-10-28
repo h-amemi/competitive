@@ -15,4 +15,7 @@ if __name__ == "__main__":
     # int list (n lines)
     values = [[int(i) for i in (input().split())] for _ in range(n)]
 
+    # list of tuple (str, int)
+    values = [(a, int(b)) for a, b in (input().split() for _ in range(n))]
+
     print(main())
